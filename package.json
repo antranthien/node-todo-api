@@ -1,0 +1,12 @@
+{
+  "name": "node-todo-api",
+  "version": "0.0.0",
+  "description": "node-todo-api",
+  "main": "app.js",
+  "author": {
+    "name": "Stone"
+  },
+  "dependencies": {
+    "mongodb": "^2.2.11"
+  }
+}
