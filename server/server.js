@@ -9,6 +9,7 @@ const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
+const {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -106,6 +107,13 @@ app.post('/users', (req, res) => {
 
     var user = new User(body);
 
+    //user.save().then(() => { // return a User doc back
+    //    var token = user.generateAuthToken();
+    //    res.header('x-auth', token).send(user);
+    //}).catch((e) => {
+    //    res.status(400).send(e);
+    //});
+
     user.save().then(() => { // return a User doc back
         return user.generateAuthToken();
     }).then((token) => {
@@ -115,28 +123,13 @@ app.post('/users', (req, res) => {
     });
 });
 
+
+
+app.get('/users/me', authenticate, (req, res) => {
+    res.send(req.user);
+});
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
 });
 
 module.exports = { app };
-
-//var newUser = new User({
-//    email: 'antt@gmail.com'
-//});
-
-//newUser.save().then((doc) => {
-//    console.log('Saved ', doc);
-//}, (err) => {
-//    console.log('Unable to save ', err);
-//    });
-
-//var newTodo2 = new Todo({
-//    text: 'Learn C#',
-//});
-
-//newTodo2.save().then((doc) => {
-//    console.log(JSON.stringify(doc, undefined, 2));
-//}, (err) => {
-//    console.log('Unable to save');
-//    });
