@@ -1,3 +1,4 @@
 ﻿node_modules/
 typings/
 node-todo-api.njsproj
+server/config/config.json
